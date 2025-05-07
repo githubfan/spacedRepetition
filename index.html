@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spaced Repetition Dashboard</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-size: 24px;
+    }
+
+    .add-topic {
+      padding: 10px 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .info-box {
+      background-color: #fff;
+      border-left: 5px solid #4CAF50;
+      padding: 15px;
+      margin-bottom: 25px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .topic-card {
+      background-color: #fff;
+      border-left: 5px solid #2196F3;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .topic-card.hard { border-color: #f44336; }
+    .topic-card.good { border-color: #FFC107; }
+    .topic-card.easy { border-color: #4CAF50; }
+
+    .topic-header {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .subject-level {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .status {
+      font-style: italic;
+      color: #888;
+      margin-bottom: 10px;
+    }
+
+    .log-button {
+      background-color: #eee;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .heatmap {
+      margin-top: 40px;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .heatmap h2 {
+      margin-top: 0;
+    }
+
+    .heatmap-table {
+      width: 100%;
+      margin-top: 10px;
+      border-collapse: collapse;
+    }
+
+    .heatmap-table td {
+      padding: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .rating-note {
+      margin-top: 10px;
+      font-style: italic;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Spaced Repetition Dashboard</h1>
+    <button class="add-topic">Add a new topic</button>
+  </header>
+
+  <div class="info-box">
+    <strong>Today’s Work:</strong> You have seven reviews due tomorrow. Keep it up!
+  </div>
+
+  <div class="topic-card hard">
+    <div class="topic-header">3.5.1 - Current Electricity</div>
+    <div class="subject-level">Physics A Level · Hard Topic</div>
+    <div class="status">You’ve rated this topic below one star for 3 weeks</div>
+    <button class="log-button">Finished this topic? Log your details</button>
+  </div>
+
+  <div class="topic-card good">
+    <div class="topic-header">Differentiation from First Principles</div>
+    <div class="subject-level">Maths A Level · Good Topic</div>
+    <div class="status">You’ve never rated this topic below three stars</div>
+    <button class="log-button">Finished this topic? Log your details</button>
+  </div>
+
+  <div class="topic-card easy">
+    <div class="topic-header">1.1.1 - Structure and function of the processor</div>
+    <div class="subject-level">Computer Science A Level · Easy Topic</div>
+    <div class="status">You’ve always rated this five stars</div>
+    <button class="log-button">Finished this topic? Log your details</button>
+  </div>
+
+</body>
+</html>
