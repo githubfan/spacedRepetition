@@ -1,142 +1,432 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Spaced Repetition Dashboard</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background: #f4f4f4;
-      margin: 0;
-      padding: 20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spaced Repetition App</title>
+    <style>
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-    }
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 
-    header h1 {
-      font-size: 24px;
-    }
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'DM Sans', sans-serif;
+        }
 
-    .add-topic {
-      padding: 10px 15px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
+        body {
+            background-color: #fdf0d5;
+            padding: 2rem;
+        }
 
-    .info-box {
-      background-color: #fff;
-      border-left: 5px solid #4CAF50;
-      padding: 15px;
-      margin-bottom: 25px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
 
-    .topic-card {
-      background-color: #fff;
-      border-left: 5px solid #2196F3;
-      padding: 15px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
+        @media (min-width: 992px) {
+            .container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
 
-    .topic-card.hard { border-color: #f44336; }
-    .topic-card.good { border-color: #FFC107; }
-    .topic-card.easy { border-color: #4CAF50; }
+        h1, h2 {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
 
-    .topic-header {
-      font-weight: bold;
-      font-size: 18px;
-      margin-bottom: 5px;
-    }
+        h1 {
+            font-size: 1.875rem;
+        }
 
-    .subject-level {
-      color: #555;
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
+        h2 {
+            font-size: 1.5rem;
+        }
 
-    .status {
-      font-style: italic;
-      color: #888;
-      margin-bottom: 10px;
-    }
+        /* Topic cards */
+        .card {
+            background-color: #3a2269;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
 
-    .log-button {
-      background-color: #eee;
-      border: none;
-      padding: 8px 12px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
+        .card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
 
-    .heatmap {
-      margin-top: 40px;
-      padding: 20px;
-      background-color: #fff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
 
-    .heatmap h2 {
-      margin-top: 0;
-    }
+        .tag {
+            padding: 0.25rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+        }
 
-    .heatmap-table {
-      width: 100%;
-      margin-top: 10px;
-      border-collapse: collapse;
-    }
+        .tag.physics {
+            background-color: #669bbc;
+        }
 
-    .heatmap-table td {
-      padding: 8px;
-      border: 1px solid #ddd;
-    }
+        .tag.maths {
+            background-color: #669bbc;
+        }
 
-    .rating-note {
-      margin-top: 10px;
-      font-style: italic;
-      color: #555;
-    }
-  </style>
+        .tag.cs {
+            background-color: #669bbc;
+        }
+
+        .tag.level {
+            background-color: white;
+            color: black;
+        }
+
+        .tag.hard {
+            background-color: #c1121f;
+        }
+
+        .tag.good {
+            background-color: #ff8400;
+        }
+
+        .tag.easy {
+            background-color: #08741c;
+        }
+
+        .tag-note {
+            font-size: 0.875rem;
+            margin-left: auto;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .finish-text p:first-child {
+            font-weight: 600;
+        }
+
+        .finish-text p:last-child {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        /* Stars */
+        .stars {
+            display: flex;
+        }
+
+        .star {
+            width: 24px;
+            height: 24px;
+            margin-left: 2px;
+        }
+
+        .star.filled {
+            color: #fff200;
+        }
+
+        .star.empty {
+            color: white;
+        }
+
+        .star svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Form */
+        .form-container {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #669bbc;
+            color: white;
+            border: none;
+            border-radius: 0.375rem;
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-note {
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .form-note strong {
+            font-weight: bold;
+        }
+
+        /* Heatmap */
+        .heatmap-title {
+            margin-bottom: 0.25rem;
+        }
+
+        .heatmap-subtitle {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .heatmap {
+            display: grid;
+            grid-template-columns: repeat(16, 1fr);
+            gap: 0.25rem;
+        }
+
+        .heatmap-cell {
+            width: 20px;
+            height: 20px;
+            border-radius: 2px;
+        }
+
+        /* Star sizes for form */
+        .form-stars .star {
+            width: 32px;
+            height: 32px;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Spaced Repetition Dashboard</h1>
-    <button class="add-topic">Add a new topic</button>
-  </header>
+    <div class="container">
+        <!-- Left Column - Today's Work -->
+        <div class="today-work">
+            <h1>Today's Work</h1>
+            <p style="margin-bottom: 1.5rem;">You have <strong>seven</strong> reviews due tomorrow. Keep it up!</p>
 
-  <div class="info-box">
-    <strong>Today’s Work:</strong> You have seven reviews due tomorrow. Keep it up!
-  </div>
+            <!-- Card 1 -->
+            <div class="card">
+                <h2>3.5.1 - Current Electricity</h2>
+                <div class="tags">
+                    <span class="tag physics">Physics</span>
+                    <span class="tag level">A Level</span>
+                    <span class="tag hard">Hard Topic</span>
+                    <span class="tag-note">You've rated this topic below one star for 3 weeks</span>
+                </div>
+                <div class="card-footer">
+                    <div class="finish-text">
+                        <p>Finished this topic?</p>
+                        <p>Log your details to remove it from your list</p>
+                    </div>
+                    <div class="stars">
+                        <div class="star filled">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="star filled">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="star empty">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="star empty">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="star empty">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-  <div class="topic-card hard">
-    <div class="topic-header">3.5.1 - Current Electricity</div>
-    <div class="subject-level">Physics A Level · Hard Topic</div>
-    <div class="status">You’ve rated this topic below one star for 3 weeks</div>
-    <button class="log-button">Finished this topic? Log your details</button>
-  </div>
+            <!-- Card 2 -->
+            <div class="card">
+                <h2>Differentiation from First Principles</h2>
+                <div class="tags">
+                    <span class="tag maths">Maths</span>
+                    <span class="tag level">A Level</span>
+                    <span class="tag good">Good Topic</span>
+                    <span class="tag-note">You've never rated this topic below three stars</span>
+                </div>
+                <div class="card-footer">
+                    <div class="finish-text">
+                        <p>Finished this topic?</p>
+                        <p>Log your details to remove it from your list</p>
+                    </div>
+                    <div class="stars">
+                        <div class="star filled">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="star filled">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="star filled">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="star filled">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="star empty">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-  <div class="topic-card good">
-    <div class="topic-header">Differentiation from First Principles</div>
-    <div class="subject-level">Maths A Level · Good Topic</div>
-    <div class="status">You’ve never rated this topic below three stars</div>
-    <button class="log-button">Finished this topic? Log your details</button>
-  </div>
+            <!-- Card 3 -->
+            <div class="card">
+                <h2>1.1.1 - Structure and function of the processor</h2>
+                <div class="tags">
+                    <span class="tag cs">Computer Science</span>
+                    <span class="tag level">A Level</span>
+                    <span class="tag easy">Easy Topic</span>
+                    <span class="tag-note">You've always rated this five stars</span>
+                </div>
+                <div class="card-footer">
+                    <div class="finish-text">
+                        <p>Finished this topic?</p>
+                        <p>Log your details to remove it from your list</p>
+                    </div>
+                    <div class="stars">
+                        <div class="star filled">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="star filled">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="star filled">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="star filled">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="star filled">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  <div class="topic-card easy">
-    <div class="topic-header">1.1.1 - Structure and function of the processor</div>
-    <div class="subject-level">Computer Science A Level · Easy Topic</div>
-    <div class="status">You’ve always rated this five stars</div>
-    <button class="log-button">Finished this topic? Log your details</button>
-  </div>
+        <!-- Right Column - Add a new topic & Heatmap -->
+        <div class="add-topic">
+            <h2>Add a new topic</h2>
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="topic-name">Topic Name</label>
+                    <input type="text" id="topic-name" placeholder="Integration">
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" placeholder="Maths">
+                </div>
+                <div class="form-group">
+                    <label for="study-level">Study Level</label>
+                    <input type="text" id="study-level" placeholder="A Level">
+                </div>
+                <div class="form-group">
+                    <label>Initial Rating</label>
+                    <div class="stars form-stars">
+                        <div class="star filled">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="star filled">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="star filled">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="star empty">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="star empty">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="form-note">Based on your rating, you'll see this topic in <strong>five</strong> days</p>
+                </div>
+            </div>
 
+            <h2 class="heatmap-title">Review Heatmap</h2>
+            <p class="heatmap-subtitle">Last 4 months</p>
+            <div class="heatmap">
+                <!-- Generate heatmap cells with JavaScript -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const heatmap = document.querySelector('.heatmap');
+                        const colors = ['#b3c8b7', '#23592d', '#487450', '#517f59', '#488753', '#b3c8b7', '#b3c8b7'];
+                        
+                        for (let i = 0; i < 112; i++) {
+                            const cell = document.createElement('div');
+                            cell.className = 'heatmap-cell';
+                            const randomIndex = Math.floor(Math.random() * colors.length);
+                            cell.style.backgroundColor = colors[randomIndex];
+                            heatmap.appendChild(cell);
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
